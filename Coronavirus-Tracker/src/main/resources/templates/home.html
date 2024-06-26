@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <title>Corona Virus Tracker Application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRUBGg0Po+p7yc/nzA6s2xHQ4B+2miF5U5UbFtfJp" crossorigin="anonymous"></script>
+    <style>
+        .spinner-border {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="p-3 mb-2 bg-info text-dark">
+        <h1>Corona Virus Tracker Application</h1><br>
+        <p>This Application Lists the Current Number of Cases Reported Across the Globe</p>
+        <div class="jumbotron">
+            <h1 class="display-4" th:text="${totalDeathsReported}"></h1>
+            <p class="lead">Total Deaths Reported as of Today</p>
+            <h2 class="display-6" th:text="'New Deaths: ' + ${totalNewDeaths}"></h2>
+            <p>Last Updated: <span th:text="${lastUpdated}"></span></p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="spinner-border text-primary" role="status" id="loading-spinner">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <table class="table table-success table-striped-columns" id="data-table">
+            <thead>
+                <tr>
+                    <th>State</th>
+                    <th>Country</th>
+                    <th>Total Deaths Reported</th>
+                    <th>Changes Since Last Day</th>
+                </tr>
+            </thead>
+            <tbody th:each="locationstate : ${LocationStates}">
+                <tr>
+                    <td th:text="${locationstate.state}"></td>
+                    <td th:text="${locationstate.country}"></td>
+                    <td th:text="${locationstate.latestTotalDeaths}">0</td>
+                    <td th:text="${locationstate.differFromPrevay}">0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $("#data-table").hide();
+            $("#loading-spinner").show();
+            setTimeout(function() {
+                $("#loading-spinner").hide();
+                $("#data-table").show();
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
